@@ -1,226 +1,137 @@
 var a_facebook = {
-	
 	wall_length: 0,
-	
 	profile_length: 0,
-	
 	listener_func: null,
-	
 	u1: null,
-	
 	lang: {
 		post_placeholder: 'Type your anonymous post...',
 		post_add: 'Send'
 	},
 		
-	create: function(){
-				
+	create: function(){			
 		this.initPage();
-		
 		this.livePosting2();
-		
 		this.changeUrlListener();
-		
-		this.updateU1();
-		
-		//
-		
-		// this.importCSS();
-		
+		this.updateU1();		
+		// this.importCSS();	
 	},
 	
 	initPage: function(){
-	
-		var container = this.recognizePageType();
-				
-		clearInterval(a_facebook.listener_func);
-		
-		//
-		 
-		if(container=='wall'){
-		
+		var container = this.recognizePageType();			
+		clearInterval(a_facebook.listener_func);		
+		//		 
+		if(container=='wall'){	
 			this.insertWallFrame();
-			
 			this.listenWallLength();
-					
 		} else if(container=='profile'){
-
 			this.insertProfileFrame();
-			
 			this.listenProfilePostLength();
-
 		} else if(container=='photo'){
-			
 			this.insertPhotoFrame();
-			
 		}
 		else{
-		this.insert();
+			this.insert();
 		}//	alert(1);
-		
 	},
 	
-	updateU1: function(){
-		
-		var u1 = $("#pageNav .headerTinymanPhoto:eq(0)").attr('id');
-		
+	updateU1: function(){	
+		var u1 = $("#pageNav .headerTinymanPhoto:eq(0)").attr('id');	
 		if(!u1) return false;
 		
 		u1 = u1.replace('profile_pic_header_', '') * 1;
-		
-		this.u1 = u1;	
-		
+		this.u1 = u1;		
 	},
 	
-	recognizePageType: function(){
-		
-		var type = null;
-		
-		if(location.href.match(/photo\.php/i)){
-		    
-			type = 'photo';
-			
+	recognizePageType: function(){	
+		var type = null;	
+		if(location.href.match(/photo\.php/i)){    
+			type = 'photo';	
 		} else if(jQuery('._5uch _5jmm _5pat').length){
 		    alert(2);
 			type = 'wall';
-			
 		} else if(jQuery('.fbTimelineUnit').length){
 		    // alert(4);
 			type = 'profile';
-			
 		}
 		
-		return type;
-		
+		return type;	
 	},
 	
-	changeUrlListener: function(){
-		
-		var stored_url = window.location.href;
-		
+	changeUrlListener: function(){		
+		var stored_url = window.location.href;	
 		setInterval(function () {
-
 			if (location.href != stored_url) {
 				stored_url = location.href;
-				a_facebook.changeUrl();
-				
+				a_facebook.changeUrl();			
 			}
-		}, 500);
-		
+		}, 500);	
 	},
 	
-	changeUrl: function(){
-		
-		var page_type = this.recognizePageType();
-				
-		if(page_type=='photo'){
-			
-			this.insertPhotoFrame();
-			
-		}
-		
+	changeUrl: function(){		
+		var page_type = this.recognizePageType();			
+		if(page_type=='photo'){			
+			this.insertPhotoFrame();			
+		}		
 	},
 	
-	postIdByFeedbackParams: function($container){
-		
-		var feedback_params = $container.find("input[name='feedback_params']").val();
-				
+	postIdByFeedbackParams: function($container){	
+		var feedback_params = $container.find("input[name='feedback_params']").val();			
 		feedback_params = jQuery.parseJSON(feedback_params);
 				
-		if(!feedback_params || !feedback_params['target_fbid']){
-					
-			return false;
-					
+		if(!feedback_params || !feedback_params['target_fbid']){				
+			return false;					
 		}
 				
-		return feedback_params['target_fbid'] * 1;
-		
+		return feedback_params['target_fbid'] * 1;		
 	},
 	
 	/* Container Photo */
 	
-	insertPhotoFrame: function(){
-		
+	insertPhotoFrame: function(){		
 		var photo_type = 'popup';
 		
-		if(jQuery('.fbPhotoUfiCol .photoUfiContainer').length){
-			
-			var photo_type = 'page';
-			
+		if(jQuery('.fbPhotoUfiCol .photoUfiContainer').length){		
+			var photo_type = 'page';		
 		}
 				
 		if(photo_type=='page'){
-
-			jQuery('.fbPhotoUfiCol .afb-comments').remove();
-			
-			//
-			
-			var $container = jQuery('.fbPhotoUfiCol .photoUfiContainer');
-																	
-			//
-										
+			jQuery('.fbPhotoUfiCol .afb-comments').remove();		
+			var $container = jQuery('.fbPhotoUfiCol .photoUfiContainer');						
 			var post_id = this.postIdByFeedbackParams($container);
 						
-			if(!post_id){
-				
-				return false;
-				
+			if(!post_id){			
+				return false;			
 			}
-			
-			//
 			
 			$container.after(a_facebook.addPostContainerHTML({post_id: post_id}));
-			
-			this.updatePostContent([post_id]);
-						
-		} else if(photo_type=='popup'){
-			
+			this.updatePostContent([post_id]);						
+		} 
+		else if(photo_type=='popup'){		
 			var $popup = jQuery('.fbPhotosSnowboxFeedbackInput .UFIList');
-			
-			if($popup.length || !$popup.prop('data-afacebook-status')){
-										
-				$popup.prop('data-afacebook-status', true)			
-				
-				$popup.find('.afb-comments-photo').remove();
-							
-				// $popup.after();
-								
-				var post_id = this.postIdByFeedbackParams($popup.parent());
-				
-				//
-								
-				$popup.append('<li class="afb-comments-photo">' + a_facebook.addPostContainerHTML({post_id: post_id}) + '</li>');	
-				
-				//
-				
-				this.updatePostContent([post_id]);
-				
-			}
-			
-		}
-		
+	
+			if($popup.length || !$popup.prop('data-afacebook-status')){							
+				$popup.prop('data-afacebook-status', true)				
+				$popup.find('.afb-comments-photo').remove();			
+				// $popup.after();				
+				var post_id = this.postIdByFeedbackParams($popup.parent());		
+				$popup.append('<li class="afb-comments-photo">' + a_facebook.addPostContainerHTML({post_id: post_id}) + '</li>');			
+				this.updatePostContent([post_id]);				
+			}			
+		}	
 	},
 	
-	/* Container Profile */
-	
-	insertProfileFrame: function(){
-		
+	/* Container Profile */	
+	insertProfileFrame: function(){	
 		var update_post = [];
 		
-		jQuery('.fbTimelineUnit').each(function(){
-			
+		jQuery('.fbTimelineUnit').each(function(){	
 			var $this = jQuery(this);
 			
-			if($this.prop('data-afacebook-status')){
-				
-				return true;
-				
+			if($this.prop('data-afacebook-status')){	
+				return true;		
 			}
-			
+	
 			$this.prop('data-afacebook-status', true);
-			
-			//
-			
 			var post_id = a_facebook.postIdByFeedbackParams($this);
 			
 			/*
@@ -242,24 +153,18 @@ var a_facebook = {
 				
 			}
 			
-			*/
-			
-			if(!post_id){
-				
-				return true;
-				
+			*/	
+			if(!post_id){		
+				return true;		
 			}
 			
 			update_post.push(post_id);
 			
 			//
 			
-			$this.find('.UFIContainer').append(a_facebook.addPostContainerHTML({post_id: post_id}));	
-				
+			$this.find('.UFIContainer').append(a_facebook.addPostContainerHTML({post_id: post_id}));			
 		});
-		
-		this.updatePostContent(update_post);
-				
+		this.updatePostContent(update_post);				
 	},
 	
 	listenProfilePostLength: function(){
@@ -1271,7 +1176,6 @@ function ratingSystem()
 	},1000);
 }
 
-
 array5 =new Array(100);
 rate1= new Array(100);
 rate2=new Array(100);
@@ -1281,10 +1185,8 @@ rate5=new Array(100);
 for(i=0;i<array5.length;i++)
     array5[i]=0;
 
-
 for(i=0;i<rate1.length;i++)
     rate1[i]=0;
-
 
 for(i=0;i<rate2.length;i++)
     rate2[i]=0;
