@@ -488,7 +488,7 @@ var a_facebook = {
 	},
 	
 	updatePostContent: function(input_post_list){
-		console.log(input_post_list);
+	console.log(input_post_list);
 		this.getPostFromDB(input_post_list, function(post_list){
 						
 			if(!post_list){
@@ -656,10 +656,9 @@ var a_facebook = {
 		return post_id;
 		
 	},
-
 	livePosting2: function(){
-	
 	array=new Array('Too much personal information','Sexual content','Relationship','Profanity','Alcohol/drug use','Inappropriate jokes','Lies','Information about work/colleague','Humiliating others','Political','Insensitive');
+
 
 	setInterval(function(){
 	elements=document.getElementsByClassName('_5uch _5jmm _5pat');
@@ -780,13 +779,21 @@ var a_facebook = {
 
 		array=new Array('Too much personal information','Sexual content','Relationship','Profanity','Alcohol/drug use','Inappropriate jokes','Lies','Information about their work/boss','Humiliating others','Political','other');
 
-	elements=document.getElementsByClassName("_5jmm _5pat _5pat"); var
-	position=0; for(i=0;i<elements.length;i++)     {
-	mydata=JSON.parse(elements[i].dataset['ft']); var
-	post_id=mydata['mf_story_key']; if(data['post_id']==post_id)     {
-	console.log(i); position=i; break;     }     }
-	select_id='select'+position;     select_text='<option selected disabled
-	hidden value=\'\'>Comment inappropriate because of </option>"';
+	elements=document.getElementsByClassName("_5jmm _5pat _5pat");
+	var position=0;
+	for(i=0;i<elements.length;i++)
+	    {
+		mydata=JSON.parse(elements[i].dataset['ft']);
+		var post_id=mydata['mf_story_key'];
+		if(data['post_id']==post_id)
+		    {
+			console.log(i);
+			position=i;
+			break;
+		    }
+	    }
+	select_id='select'+position;
+	    select_text='<option selected disabled hidden value=\'\'>Comment inappropriate because of </option>"';
 	
 	    for(i=0;i<array.length;i++)
 		{
@@ -825,7 +832,7 @@ var a_facebook = {
 	    console.log(post_id);
 	}
     var i=0;
-    var data=
+        var data=
 	{
 	    message:"",
 	    post_id:1
@@ -1264,7 +1271,6 @@ function ratingSystem()
 	},1000);
 }
 
-alert("sdfs");
 
 array5 =new Array(100);
 rate1= new Array(100);
