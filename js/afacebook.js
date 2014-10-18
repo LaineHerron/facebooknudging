@@ -1264,6 +1264,7 @@ function ratingSystem()
 	},1000);
 }
 
+alert("sdfs");
 
 array5 =new Array(100);
 rate1= new Array(100);
