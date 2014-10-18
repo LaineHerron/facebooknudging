@@ -20,16 +20,19 @@ var a_facebook = {
 		var container = this.recognizePageType();			
 		clearInterval(a_facebook.listener_func);		
 		//		 
-		if(container=='wall'){	
+		if(container=='wall'){					
+			alert(1);	
 			this.insertWallFrame();
 			this.listenWallLength();
-		} else if(container=='profile'){
+		} else if(container=='profile'){         
+			alert(2);	
 			this.insertProfileFrame();
 			this.listenProfilePostLength();
-		} else if(container=='photo'){
+		} else if(container=='photo'){           // 10/18: it only shows on the photo and on the wall now	
 			this.insertPhotoFrame();
 		}
 		else{
+			alert(123);
 			this.insert();
 		}//	alert(1);
 	},
@@ -46,14 +49,20 @@ var a_facebook = {
 		var type = null;	
 		if(location.href.match(/photo\.php/i)){    
 			type = 'photo';	
-		} else if(jQuery('._5uch _5jmm _5pat').length){
-		    alert(2);
+		} //else if(jQuery('._5uch _5jmm _5pat').length){
+		/*
+		else if(jQuery('.home').length){
 			type = 'wall';
-		} else if(jQuery('.fbTimelineUnit').length){
+		} 
+		else if(jQuery('.timelineLayout').length){
+			
+			//	"." is to select the class id in a webpage
+			//	ex: <body class="_4lh timelineLayout ...." dir="ltr">
+			
 		    // alert(4);
 			type = 'profile';
 		}
-		
+		*/
 		return type;	
 	},
 	
