@@ -1,0 +1,70 @@
+var a_facebook = {
+    
+    wall_length: 0,
+    
+    profile_length: 0,
+    
+    listener_func: null,
+    
+    u1: null,
+    
+    lang: {
+	post_placeholder: 'Type your anonymous post...',
+	post_add: 'Send'
+    },
+    
+    create: function(){
+	
+	this.initPage();
+	
+	this.livePosting();
+	
+	this.changeUrlListener();
+	
+	this.updateU1();
+	
+	//
+	
+	// this.importCSS();
+	
+    },
+    
+    initPage: function(){
+	
+	var container = this.recognizePageType();
+	
+	clearInterval(a_facebook.listener_func);
+	
+	//
+	// alert(1);
+	if(container=='wall'){
+	    
+	    this.insertWallFrame();
+	    
+	    this.listenWallLength();
+	    
+	} else if(container=='profile'){
+
+	    this.insertProfileFrame();
+	    
+	    this.listenProfilePostLength();
+
+	} else if(container=='photo'){
+	    
+	    this.insertPhotoFrame();
+	    
+	}
+	
+    },
+    
+    updateU1: function(){
+	
+	var u1 = $("#pageNav .headerTinymanPhoto:eq(0)").attr('id');
+	
+	if(!u1) return false;
+	
+	u1 = u1.replace('profile_pic_header_', '') * 1;
+	
+	this.u1 = u1;
+	
+    },
