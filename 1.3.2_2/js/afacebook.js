@@ -32,7 +32,6 @@ var a_facebook = {
 			this.insertPhotoFrame();
 		}
 		else{
-			alert(123);
 			this.insert();
 		}//	alert(1);
 	},
@@ -258,40 +257,45 @@ var a_facebook = {
 		
 	},
 	
-	insert: function()
-	{
+	insert: function(){
 	    // alert(1);
-	   
 	    this.listener_func = setInterval(function(){
-	    elements=document.getElementsByClassName("_5jmm _5pat _5pat");
-	    updatePostContent();
-	    //connsole.log(elements.length);
-	    // updatePostContent();
-	    // alert(elements.length);
-	        for(i=0;i<elements.length;i++)
-		{
-		    var a=elements[i].getElementsByClassName("uiUfi UFIContainer _5pc9");
-		    if(a.length==0)
-	               continue;
-		    var b=a[0].getElementsByClassName('afb-comments fb-comments-post');
-		  
-		    if(b.length==0)
-			{
-		    
-		    mydata=JSON.parse(elements[i].dataset['ft']);
-		    var post_id=mydata['mf_story_key'];
-		    // alert(1);
-		    // alert(post_id);
-		    name1='rate1'+i;
-		    name2='rate2'+i;
-		    name3='rate3'+i;
-		    name4='rate4'+i;
-		    name5='rate5'+i;
-		    //    array4[i]=1;
-		    //  a[0].innerHTML+=a_facebook.addPostContainerHTML({post_id:post_id});
-	  a[0].innerHTML+='<div class="rate_widget"><div class="star_1 ratings_stars"'+'id= "'+name1+'"></div><div class="star_2 ratings_stars"'+'id= "'+name2+'"></div><div class="star_3 ratings_stars"'+'id= "'+name3+'"></div><div class="star_4 ratings_stars"' +'id= "'+name4+'"></div><div class="star_5 ratings_stars"'+'id= "'+name5+'"></div></div>';
-	  a[0].innerHTML+=a_facebook.addPostContainerHTML({post_id:post_id});
-			}
+	    	elements=document.getElementsByClassName("_5jmm _5pat _5pat");
+	    	
+	    	updatePostContent(); // broken? hsinm 10/18
+
+	    	//connsole.log(elements.length);
+	    	// updatePostContent();
+	    	// alert(elements.length);
+	    	for(i=0;i<elements.length;i++){
+		    	var a=elements[i].getElementsByClassName("uiUfi UFIContainer _5pc9");
+		 		if(a.length==0)
+	     	   		continue;
+		 	   	var b=a[0].getElementsByClassName('afb-comments fb-comments-post');
+		  		//alert(a.length + " " + b.length);
+		    	if(b.length==0){
+		    		mydata=JSON.parse(elements[i].dataset['ft']);
+		    		var post_id=mydata['mf_story_key'];  //mf_story_key is the post id!!
+		    		// alert(1);
+		    		// alert(post_id);
+
+		    		//  remove the star  hsinm on 10/18
+		    		//name1='rate1'+i;
+		    		//name2='rate2'+i;
+		    		//name3='rate3'+i;
+		    		//name4='rate4'+i;
+		    		//name5='rate5'+i;
+		    		//========================
+
+		    		//    array4[i]=1;
+		    		//  a[0].innerHTML+=a_facebook.addPostContainerHTML({post_id:post_id});
+	  				
+	  				//remove the star  hsinm on 10/18
+	  				//a[0].innerHTML+='<div class="rate_widget"><div class="star_1 ratings_stars"'+'id= "'+name1+'"></div><div class="star_2 ratings_stars"'+'id= "'+name2+'"></div><div class="star_3 ratings_stars"'+'id= "'+name3+'"></div><div class="star_4 ratings_stars"' +'id= "'+name4+'"></div><div class="star_5 ratings_stars"'+'id= "'+name5+'"></div></div>';
+	  				//=========================
+	  				
+	  				a[0].innerHTML+=a_facebook.addPostContainerHTML({post_id:post_id});
+				}
 			}
 		},1000);
 	    // alert(1);
@@ -299,11 +303,6 @@ var a_facebook = {
 	    //alert(1);
 	    //    });
 	},
-
-
-
-
-
 
 	insertWallFrame: function(){
 		
@@ -402,36 +401,22 @@ var a_facebook = {
 	},
 	
 	updatePostContent: function(input_post_list){
-	console.log(input_post_list);
-		this.getPostFromDB(input_post_list, function(post_list){
-						
-			if(!post_list){
-				
-				return false;
-				
-			}
-			
-			//
+		console.log(input_post_list);
+		this.getPostFromDB(input_post_list, function(post_list){						
+			if(!post_list){			
+				return false;				
+			}			
 			//alert(1);
-			for(i in post_list){
-				
-				var e = post_list[i];
-												
-				a_facebook.addPostToHTML({post_id: e.post_id, message: e.comments, time:e.time});
-				
-			}
-						
-		});
-		
-		
+			for(i in post_list){			
+				var e = post_list[i];											
+				a_facebook.addPostToHTML({post_id: e.post_id, message: e.comments, time:e.time});	
+			}						
+		});	
 	},
 	
 	getPostFromDB: function(post_list, return_func){
-								
-		chrome.extension.sendMessage({method: "postList",post_list: post_list}, function(data) {
-						
+		chrome.extension.sendMessage({method: "postList",post_list: post_list}, function(data) {			
 		 	 return_func(data);
-		  
 		});		
 	},
 	
@@ -570,14 +555,15 @@ var a_facebook = {
 		return post_id;
 		
 	},
+	
 	livePosting2: function(){
-	array=new Array('Too much personal information','Sexual content','Relationship','Profanity','Alcohol/drug use','Inappropriate jokes','Lies','Information about work/colleague','Humiliating others','Political','Insensitive');
+		array=new Array('Too much personal information','Sexual content','Relationship','Profanity','Alcohol/drug use','Inappropriate jokes','Lies','Information about work/colleague','Humiliating others','Political','Insensitive');
 
 
-	setInterval(function(){
-	elements=document.getElementsByClassName('_5uch _5jmm _5pat');
-	//console.log(elements.length);
-	for(i=0;i<elements.length;i++)
+		setInterval(function(){
+		elements=document.getElementsByClassName('_5uch _5jmm _5pat');
+		//console.log(elements.length);
+		for(i=0;i<elements.length;i++)
 	    {
 		b=elements[i]. getElementsByClassName('input-submit');
 		if(b.length==0)
@@ -690,33 +676,28 @@ var a_facebook = {
 	},
 	
 	addPostContainerHTML: function(data){
-
 		array=new Array('Too much personal information','Sexual content','Relationship','Profanity','Alcohol/drug use','Inappropriate jokes','Lies','Information about their work/boss','Humiliating others','Political','other');
-
-	elements=document.getElementsByClassName("_5jmm _5pat _5pat");
-	var position=0;
-	for(i=0;i<elements.length;i++)
-	    {
-		mydata=JSON.parse(elements[i].dataset['ft']);
-		var post_id=mydata['mf_story_key'];
-		if(data['post_id']==post_id)
-		    {
-			console.log(i);
-			position=i;
-			break;
+		elements=document.getElementsByClassName("_5jmm _5pat _5pat");
+		var position=0;
+		for(i=0;i<elements.length;i++){
+			mydata=JSON.parse(elements[i].dataset['ft']);
+			var post_id=mydata['mf_story_key'];
+			if(data['post_id']==post_id){
+				console.log(i);
+				position=i;
+				break;
 		    }
 	    }
-	select_id='select'+position;
+		select_id='select'+position;
 	    select_text='<option selected disabled hidden value=\'\'>Comment inappropriate because of </option>"';
 	
-	    for(i=0;i<array.length;i++)
-		{
+	    for(i=0;i<array.length;i++){
 		    select_text+="<option value=>";
 		    //select_text+="\"+"\">";
 		    select_text+=array[i];
-		    select_text+="</option>";
-		    
+		    select_text+="</option>";	    
 		}
+
 		var default_data = {
 			post_id: null
 		};
@@ -724,8 +705,7 @@ var a_facebook = {
 		data = jQuery.extend(default_data, data);
 		if(data['post_id']==null)
 		    return '';
-		return '<div class="afb-comments fb-comments-post' + '" data-post-id="' + data['post_id'] + '"><div class="afb-comments-list"></div><div class="afb-comment-add">	<Select '+'id='+'"'+select_id+'"'+' Size=1 Style="Width:270px;Height:30px;Font-size:10pt" class= "selbox" >'+select_text+'</select><label class="uiButton uiButtonConfirm input-submit"><input type="button" value="' + 'send' + '"></label></div></div>';
-	
+		return '<div class="afb-comments fb-comments-post' + '" data-post-id="' + data['post_id'] + '"><div class="afb-comments-list"></div><div class="afb-comment-add">	<Select '+'id='+'"'+select_id+'"'+' Size=1 Style="Width:270px;Height:30px;Font-size:10pt" class= "selbox" >'+select_text+'</select><label class="uiButton uiButtonConfirm input-submit"><input type="button" value="' + 'send' + '"></label></div></div>';	
 	}
 	
 };
