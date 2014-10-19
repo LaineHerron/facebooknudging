@@ -1,5 +1,5 @@
 The code is copied from the website:
 http://qianduanblog.com/post/nodejs-learning-3-url-get-post-querystring.html
 
-usage: node get.js
-sample browser query: http://localhost:2014/?a=1&b=2&c=3
+usage: node post.js
+sample browser query: http://localhost:2014/

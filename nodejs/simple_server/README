@@ -1,4 +1,6 @@
 A simple node.js web server
+The code is copied from the website:
+http://ccckmit.github.io/webbook/htm/node_web.html
 
 Usage:
 1. install node.js
