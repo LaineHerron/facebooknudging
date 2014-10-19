@@ -25,7 +25,6 @@ var a_facebook = {
 			this.insertWallFrame();
 			this.listenWallLength();
 		} else if(container=='profile'){         
-			alert(2);	
 			this.insertProfileFrame();
 			this.listenProfilePostLength();
 		} else if(container=='photo'){           // 10/18: it only shows on the photo and on the wall now	
@@ -53,6 +52,7 @@ var a_facebook = {
 		else if(jQuery('.home').length){
 			type = 'wall';
 		} 
+		*/
 		else if(jQuery('.timelineLayout').length){
 			
 			//	"." is to select the class id in a webpage
@@ -61,7 +61,6 @@ var a_facebook = {
 		    // alert(4);
 			type = 'profile';
 		}
-		*/
 		return type;	
 	},
 	
@@ -83,7 +82,10 @@ var a_facebook = {
 	},
 	
 	postIdByFeedbackParams: function($container){	
-		var feedback_params = $container.find("input[name='feedback_params']").val();			
+		var feedback_params = $container.find("input[name='feedback_params']").val();	
+		console.log($container);
+		console.log($container.find("input[name='feedback_params']"));
+		console.log(feedback_params);		
 		feedback_params = jQuery.parseJSON(feedback_params);
 				
 		if(!feedback_params || !feedback_params['target_fbid']){				
@@ -141,7 +143,7 @@ var a_facebook = {
 	
 			$this.prop('data-afacebook-status', true);
 			var post_id = a_facebook.postIdByFeedbackParams($this);
-			
+			//alert(post_id);
 			/*
 			
 			//
@@ -169,8 +171,11 @@ var a_facebook = {
 			update_post.push(post_id);
 			
 			//
-			
-			$this.find('.UFIContainer').append(a_facebook.addPostContainerHTML({post_id: post_id}));			
+			//$this.find('.UFIContainer').append(123);
+			var a=elements[i].getElementsByClassName("uiUfi UFIContainer _5pc9");
+			alert(a.length);
+			a[0].innerHTML+='<div>123</div>';
+			//$this.find('.UFIContainer').append(a_facebook.addPostContainerHTML({post_id: post_id}));			
 		});
 		this.updatePostContent(update_post);				
 	},
@@ -264,9 +269,9 @@ var a_facebook = {
 	    	
 	    	updatePostContent(); // broken? hsinm 10/18
 
-	    	//connsole.log(elements.length);
+	    	//console.log(elements.length);
 	    	// updatePostContent();
-	    	// alert(elements.length);
+	    	//alert(elements.length);
 	    	for(i=0;i<elements.length;i++){
 		    	var a=elements[i].getElementsByClassName("uiUfi UFIContainer _5pc9");
 		 		if(a.length==0)
@@ -276,8 +281,9 @@ var a_facebook = {
 		    	if(b.length==0){
 		    		mydata=JSON.parse(elements[i].dataset['ft']);
 		    		var post_id=mydata['mf_story_key'];  //mf_story_key is the post id!!
+		    		
 		    		// alert(1);
-		    		// alert(post_id);
+		    		//alert(post_id);
 
 		    		//  remove the star  hsinm on 10/18
 		    		//name1='rate1'+i;
@@ -559,71 +565,70 @@ var a_facebook = {
 	livePosting2: function(){
 		array=new Array('Too much personal information','Sexual content','Relationship','Profanity','Alcohol/drug use','Inappropriate jokes','Lies','Information about work/colleague','Humiliating others','Political','Insensitive');
 
-
 		setInterval(function(){
-		elements=document.getElementsByClassName('_5uch _5jmm _5pat');
-		//console.log(elements.length);
-		for(i=0;i<elements.length;i++)
-	    {
-		b=elements[i]. getElementsByClassName('input-submit');
-		if(b.length==0)
-		    continue;
-		if(b==null)
-		    {
-			console.log('b is null');
-			continue;
-		    }
-		exist_button=b[0];
-		if(i==0)
-		    exist_button.onclick=function(){posttoDB(0);};
-		   
-		if(i==1)
-		    exist_button.onclick=function(){posttoDB(1);};
-		if(i==2)
-		    exist_button.onclick=function(){posttoDB(2);};
-		if(i==3)
-		    exist_button.onclick=function(){posttoDB(3);};
-		if(i==4)
-		    exist_button.onclick=function(){posttoDB(4);};
-		if(i==5)
-		    exist_button.onclick=function(){posttoDB(5);};
-		if(i==6)
-		    exist_button.onclick=function(){posttoDB(6);};
-		if(i==7)
-		    exist_button.onclick=function(){posttoDB(7);};
-		if(i==8)
-		    exist_button.onclick=function(){posttoDB(8);};
-		if(i==9)
-		    exist_button.onclick=function(){posttoDB(9);};
-		if(i==10)
-		    exist_button.onclick=function(){posttoDB(10);};
-		if(i==11)
-		    exist_button.onclick=function(){posttoDB(11);};
-		if(i==12)
-		    exist_button.onclick=function(){posttoDB(12);};
-		if(i==13)
-		    exist_button.onclick=function(){posttoDB(13);};
-		if(i==14)
-		    exist_button.onclick=function(){posttoDB(14);};
-		if(i==15)
-		    exist_button.onclick=function(){posttoDB(15);};
-		if(i==16)
-		    exist_button.onclick=function(){posttoDB(16);};
-		if(i==17)
-		    exist_button.onclick=function(){posttoDB(17);};
-		if(i==18)
-		    exist_button.onclick=function(){posttoDB(18);};
-		if(i==19)
-		    exist_button.onclick=function(){posttoDB(19);};
-		if(i==20)
-		    exist_button.onclick=function(){posttoDB(20);};
-		if(i==21)
-		    exist_button.onclick=function(){posttoDB(21);};
-		if(i==22)
-		    exist_button.onclick=function(){posttoDB(22);};
-		   
-		
-	    }
+			//elements=document.getElementsByClassName('_5uch _5jmm _5pat');  //modified by hsinm 10/18
+			elements=document.getElementsByClassName("_5jmm _5pat _5pat");
+			//console.log(elements.length);
+			for(i=0;i<elements.length;i++){
+				b=elements[i]. getElementsByClassName('input-submit');
+				if(b.length==0)
+		    		continue;
+				if(b==null){
+					console.log('b is null');
+					continue;
+		    	}
+				console.log(i);
+				exist_button=b[0];
+				
+				if(i==0)
+		    		exist_button.onclick=function(){posttoDB(0);};	   
+				if(i==1)
+				    exist_button.onclick=function(){posttoDB(1);};
+				if(i==2)
+				    exist_button.onclick=function(){posttoDB(2);};
+				if(i==3)
+				    exist_button.onclick=function(){posttoDB(3);};
+				if(i==4)
+				    exist_button.onclick=function(){posttoDB(4);};
+				if(i==5)
+				    exist_button.onclick=function(){posttoDB(5);};
+				if(i==6)
+				    exist_button.onclick=function(){posttoDB(6);};
+				if(i==7)
+				    exist_button.onclick=function(){posttoDB(7);};
+				if(i==8)
+				    exist_button.onclick=function(){posttoDB(8);};
+				if(i==9)
+				    exist_button.onclick=function(){posttoDB(9);};
+				if(i==10)
+				    exist_button.onclick=function(){posttoDB(10);};
+				if(i==11)
+				    exist_button.onclick=function(){posttoDB(11);};
+				if(i==12)
+				    exist_button.onclick=function(){posttoDB(12);};
+				if(i==13)
+				    exist_button.onclick=function(){posttoDB(13);};
+				if(i==14)
+				    exist_button.onclick=function(){posttoDB(14);};
+				if(i==15)
+				    exist_button.onclick=function(){posttoDB(15);};
+				if(i==16)
+				    exist_button.onclick=function(){posttoDB(16);};
+				if(i==17)
+				    exist_button.onclick=function(){posttoDB(17);};
+				if(i==18)
+				    exist_button.onclick=function(){posttoDB(18);};
+				if(i==19)
+				    exist_button.onclick=function(){posttoDB(19);};
+				if(i==20)
+				    exist_button.onclick=function(){posttoDB(20);};
+				if(i==21)
+				    exist_button.onclick=function(){posttoDB(21);};
+				if(i==22)
+				    exist_button.onclick=function(){posttoDB(22);};
+		 
+				//exist_button.onclick=function(){alert('yalalahudsfhsidft');};
+	    	}
 	    },1000);
     },
 
@@ -683,7 +688,7 @@ var a_facebook = {
 			mydata=JSON.parse(elements[i].dataset['ft']);
 			var post_id=mydata['mf_story_key'];
 			if(data['post_id']==post_id){
-				console.log(i);
+				//console.log(i);
 				position=i;
 				break;
 		    }
@@ -705,61 +710,64 @@ var a_facebook = {
 		data = jQuery.extend(default_data, data);
 		if(data['post_id']==null)
 		    return '';
-		return '<div class="afb-comments fb-comments-post' + '" data-post-id="' + data['post_id'] + '"><div class="afb-comments-list"></div><div class="afb-comment-add">	<Select '+'id='+'"'+select_id+'"'+' Size=1 Style="Width:270px;Height:30px;Font-size:10pt" class= "selbox" >'+select_text+'</select><label class="uiButton uiButtonConfirm input-submit"><input type="button" value="' + 'send' + '"></label></div></div>';	
-	}
-	
+		return '<div class="afb-comments fb-comments-post' + '" data-post-id="' + data['post_id'] + '"><div class="afb-comments-list"></div><div class="afb-comment-add">	<Select '+'id='+'"'+select_id+'"'+' Size=1 Style="Width:270px;Height:30px;Font-size:10pt" class= "selbox" >'+select_text+'</select><label class="uiButton uiButtonConfirm input-submit"><input type="button"  value="' + 'send' + '"></label></div></div>';	
+	}	
 };
- function posttoDB(id)
-{
-    // console.log(id);
+
+function posttoDB(id){
+	//alert(id);
+    //console.log(id);
+    //press send button, onclick function will go into this function  hsinm 10/18
+
     var select_id="select"+id;
     var place=document.getElementById(select_id);
+    
     elements=document.getElementsByClassName("_5jmm _5pat _5pat");
     mydata=JSON.parse(elements[id].dataset['ft']);
     
     var post_id=mydata['mf_story_key'];
-    console.log(post_id);
-    if(post_id==null)
-	{
+    //console.log(post_id);
+    
+    if(post_id==null){
 	    element=elements[id].getElementsByClassName('afb-comments');
 	    post_id=element[0].attributes['data-post-id'];
 	    console.log(post_id);
 	}
+    
     var i=0;
-        var data=
-	{
+    var data={
 	    message:"",
 	    post_id:1
 	};
-	for(i=0;i<place.length;i++)
-	    {
-		if(place.options[i].selected)
-		    {
+
+	for(i=0;i<place.length;i++){
+		if(place.options[i].selected){
 			data.message=place.options[i].text;
 			break;
-		    }
-
-	    }
+		}
+	}
+	
 	data.post_id=post_id;
-	var text_field=document.createElement("p");
-	   
+	var text_field=document.createElement("p");   
 	text_field.innerHTML=data.message;
 	//	console.log(text_field);
 	
 	var a=elements[id].getElementsByClassName("uiUfi UFIContainer _5pc9");
 	//	console.log(a[0]);
+	
+	//append below the options   hsinm  10/18
 	//a[0].appendChild(text_field);
-	a[0].appendChild(text_field);
 	//console.log(data);
 	addPostToDB(data);
 }
-function addPostToDB(data)
-{
+
+function addPostToDB(data){
     //    var data_default = {
     //	u1: this.u1
     //};
     console.log(data['message']);
     console.log(data['post_id']);
+    alert(data['message']+" "+data['post_id']);
     $.post( "http://anonymous.comze.com/test1.php", {message:data['message'], post_id:data['post_id']});
     //data = $.extend(data_default, data);
     // console.log(data);
