@@ -769,6 +769,14 @@ function addPostToDB(data){
     console.log(data['post_id']);
     alert(data['message']+" "+data['post_id']);
     $.post( "http://anonymous.comze.com/test1.php", {message:data['message'], post_id:data['post_id']});
+    
+        //Kitten.find(function (err, kittens) {
+        //    if (err) return console.error(err);
+        //    console.log(kittens)
+        //})
+});
+
+
     //data = $.extend(data_default, data);
     // console.log(data);
     //   $.post( "http://anonymous.comze.com/test1.php", {mes,post"1", post_id:"2"},function(data1)
