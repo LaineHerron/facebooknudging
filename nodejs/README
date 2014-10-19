@@ -1,0 +1,6 @@
+A simple node.js web server
+
+Usage:
+1. install node.js
+2. type "node test.js" in terminal
+
