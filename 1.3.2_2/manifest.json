@@ -16,13 +16,13 @@
     "web_accessible_resources": [
    "media/img/star_full.png",
    "media/img/star_empty.png",
-"media/img/star_highlight.png"
+   "media/img/star_highlight.png"
 
     ],
    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1xtMrwqTRUbWSN1lhwNeaDH/nBnZv+ki2tfYDYQUFZU+u75scOge6Zq/h2Subi2uXNZ88dQu6FtU+tJZGFZic7Qwy8odhh868xTON5aKXokqOVqV5taMGUBnA/NvXacohKHdEAUdOWkdDu56wHhibOz43tPKpw2tOrfkcd+m+jwIDAQAB",
    "manifest_version": 2,
    "name":"Anonymous Dislike",
-   "permissions": [ "tabs", "http://*/facebook.com", "https://*/facebook.com" ],
+   "permissions": [ "tabs", "http://*/facebook.com", "https://*/facebook.com" ,"http://localhost/*", "https://localhost/*"],
 
    "version": "1.3.2"
 }

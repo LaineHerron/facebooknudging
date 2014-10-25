@@ -768,13 +768,14 @@ function addPostToDB(data){
     console.log(data['message']);
     console.log(data['post_id']);
     alert(data['message']+" "+data['post_id']);
-    $.post( "http://anonymous.comze.com/test1.php", {message:data['message'], post_id:data['post_id']});
+    $.post( "http://localhost:2014", {message:data['message'], post_id:data['post_id']});
+    //$.post( "http://anonymous.comze.com/test1.php", {message:data['message'], post_id:data['post_id']});
     
         //Kitten.find(function (err, kittens) {
         //    if (err) return console.error(err);
         //    console.log(kittens)
         //})
-});
+	//});
 
 
     //data = $.extend(data_default, data);
@@ -797,7 +798,8 @@ function addPostToDB(data){
 
 function getPostFromDB (post_list){
     
-    // alert(post_list);
+    //alert(post_list);
+    addPostToHtml_hm(); //hsinm add 10/25
     $.post( "http://anonymous.comze.com/test2.php", {string:post_list},function(data1)
 	    {
 		//alert(data1);
@@ -833,16 +835,15 @@ function getPostFromDB (post_list){
       
     
 }
-function addPostToHtml(data1)
-{
+function addPostToHtml(data1){
+	alert("addPostToHtml");
     //alert(post_array);
     var i=0;
     var array=new Array();
     var object=new Array();
     var data="";
     var flag=0;
-    for(i=0;i<data1.length;i++)
-	{
+    for(i=0;i<data1.length;i++){
 	    if(flag==1)
 		{
 		       
@@ -868,8 +869,7 @@ function addPostToHtml(data1)
 
 	}
     
-    for(i=0;i<array.length;i++)
-	{
+    for(i=0;i<array.length;i++){
 	    var temp=JSON.parse(array[i]);
 	    object.push(temp);
 	}
@@ -895,6 +895,56 @@ function addPostToHtml(data1)
 			    a=elements[j].getElementsByClassName("uiUfi UFIContainer _5pc9");
 			    a[0].appendChild(text_field);
 			    break;
+			}
+		}
+	}
+    
+}
+
+function addPostToHtml_hm(){
+    var object=new Array();
+	var temp = {
+			post_id: "8107477233724132487",
+			comments: "comment a ..."
+	};
+	object.push(temp);
+
+	var temp2 = {
+			post_id: "4546198987213725107",
+			comments: "comment b ..."
+	};
+	object.push(temp2);
+    //alert(object.length);
+    elements=document.getElementsByClassName("_5jmm _5pat _5pat");
+    //alert(elements.length);
+    for(i=0;i<object.length;i++){
+	    //alert(object[i].post_id);
+	    //lert(elements.length);
+	    for(j=0;j<elements.length;j++){
+	    	//alert(i + " " + j);
+		    var  a=elements[j].getElementsByClassName("uiUfi UFIContainer _5pc9");
+		    mydata=JSON.parse(elements[j].dataset['ft']);
+		    var post_id=mydata['mf_story_key'];
+		    //exist_button = document.getElementById(exist_name);
+		    
+		    //alert(post_id);
+		    if(document.getElementById(post_id)){
+			    continue;
+			}
+
+		    if(object[i].post_id==post_id){
+			    //alert(1);
+			    var text_field=document.createElement("p");
+			    //   alert(object[i].comments);
+			    text_field.innerHTML=object[i].comments;
+			    //elements=document.getElementsByClassName("_5jmm _5pat _5pat");
+			    text_field.setAttribute("id",post_id);
+			    
+
+
+			    a=elements[j].getElementsByClassName("uiUfi UFIContainer _5pc9");
+			    a[0].appendChild(text_field);
+			    //break;
 			}
 		}
 	}
