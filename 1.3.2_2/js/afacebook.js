@@ -320,16 +320,7 @@ var a_facebook = {
 	    	//alert(elements.length);
 	    	for(i=0;i<elements.length;i++){
 		    	var a=elements[i].getElementsByClassName("uiUfi UFIContainer _5pc9"); //a is the object of "reply"
-		    	var comment=elements[i].getElementsByClassName("commentable_item"); //comment is used to find the post id
-		    	
-		    	var post_id="";
-		    	if(comment.length>0){
-		    		//alert(comment[0].className);
-		    		var idStart = comment[0].className.indexOf("_");
-		    		var idEnd = comment[0].className.indexOf("_",idStart+1);
-		    		post_id = comment[0].className.substring(idStart+1,idEnd)
-		    	}
-		    	
+		    	var post_id = getPostIDfromPostObject(elements[i]);
 		 		if(a.length==0)
 	     	   		continue;
 		 	   	var b=a[0].getElementsByClassName('afb-comments fb-comments-post'); 
@@ -713,13 +704,18 @@ var a_facebook = {
 		
 	},
 	
+
+
 	addPostContainerHTML: function(data){
 		array=new Array('Too much personal information','Sexual content','Relationship','Profanity','Alcohol/drug use','Inappropriate jokes','Lies','Information about their work/boss','Humiliating others','Political','other');
 		elements=document.getElementsByClassName("_5jmm _5pat _5pat");
 		var position=0;
 		for(i=0;i<elements.length;i++){
-			mydata=JSON.parse(elements[i].dataset['ft']);
-			var post_id=mydata['mf_story_key'];
+			//hsinm update the new way to find post_id
+			//mydata=JSON.parse(elements[i].dataset['ft']);
+			//var post_id=mydata['mf_story_key'];
+			
+			var post_id = getPostIDfromPostObject(elements[i]) //hsinm
 			if(data['post_id']==post_id){
 				//console.log(i);
 				position=i;
@@ -746,6 +742,21 @@ var a_facebook = {
 		return '<div class="afb-comments fb-comments-post' + '" data-post-id="' + data['post_id'] + '"><div class="afb-comments-list"></div><div class="afb-comment-add">	<Select '+'id='+'"'+select_id+'"'+' Size=1 Style="Width:270px;Height:30px;Font-size:10pt" class= "selbox" >'+select_text+'</select><label class="uiButton uiButtonConfirm input-submit"><input type="button"  value="' + 'send' + '"></label></div></div>';	
 	}	
 };
+
+//input a post object, return its post id
+function getPostIDfromPostObject(postObj){
+	var comment=postObj.getElementsByClassName("commentable_item"); //comment is used to find the post id
+		    	
+	var post_id="";
+	if(comment.length>0){
+		var idStart = comment[0].className.indexOf("_");
+		var idEnd = comment[0].className.indexOf("_",idStart+1);
+		post_id = comment[0].className.substring(idStart+1,idEnd)
+	}
+
+	return post_id;
+}
+
 
 function posttoDB(id){
 	//alert(id);
