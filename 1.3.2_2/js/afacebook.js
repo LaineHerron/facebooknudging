@@ -767,17 +767,26 @@ function posttoDB(id){
     var place=document.getElementById(select_id);
     
     elements=document.getElementsByClassName("_5jmm _5pat _5pat");
-    mydata=JSON.parse(elements[id].dataset['ft']);
     
-    var post_id=mydata['mf_story_key'];
-    //console.log(post_id);
-    
-    if(post_id==null){
-	    element=elements[id].getElementsByClassName('afb-comments');
-	    post_id=element[0].attributes['data-post-id'];
-	    console.log(post_id);
-	}
-    
+    //hsinm comment: modify for post_id
+    //mydata=JSON.parse(elements[id].dataset['ft']);
+    //var post_id=mydata['mf_story_key'];
+    //console.log(post_id);    
+    //if(post_id==null){
+	//    element=elements[id].getElementsByClassName('afb-comments');
+	//    post_id=element[0].attributes['data-post-id'];
+	//    console.log(post_id);
+	//}
+
+	//hsin add:
+    var post_id = getPostIDfromPostObject(elements[id]);
+    if(post_id.length==0){
+    	element=elements[id].getElementsByClassName('afb-comments');
+		post_id=element[0].attributes['data-post-id'];
+		//    console.log(post_id);
+    }
+
+
     var i=0;
     var data={
 	    message:"",
@@ -947,17 +956,33 @@ function addPostToHtml(data1){
 
 function addPostToHtml_hm(){
     var object=new Array();
+	
+   	//hsinm add for test!!
 	var temp = {
-			post_id: "8107477233724132487",
+			post_id: "831407180223318",
 			comments: "comment a ..."
 	};
 	object.push(temp);
 
-	var temp2 = {
-			post_id: "4546198987213725107",
+	temp = {
+			post_id: "831407196889983",
 			comments: "comment b ..."
 	};
-	object.push(temp2);
+	object.push(temp);
+
+	temp = {
+			post_id: "653163658133843",
+			comments: "comment c ..."
+	};
+	object.push(temp);
+
+	temp = {
+			post_id: "1502431260005933",
+			comments: "comment d ..."
+	};
+	object.push(temp);
+
+
     //alert(object.length);
     elements=document.getElementsByClassName("_5jmm _5pat _5pat");
     //alert(elements.length);
@@ -967,10 +992,15 @@ function addPostToHtml_hm(){
 	    for(j=0;j<elements.length;j++){
 	    	//alert(i + " " + j);
 		    var  a=elements[j].getElementsByClassName("uiUfi UFIContainer _5pc9");
-		    mydata=JSON.parse(elements[j].dataset['ft']);
-		    var post_id=mydata['mf_story_key'];
+		    
+		    //hsinm comment
+		    //mydata=JSON.parse(elements[j].dataset['ft']);
+		    //var post_id=mydata['mf_story_key'];
 		    //exist_button = document.getElementById(exist_name);
 		    
+		    //hsinm add:
+		    var post_id = getPostIDfromPostObject(elements[j]);
+
 		    //alert(post_id);
 		    if(document.getElementById(post_id)){
 			    continue;
