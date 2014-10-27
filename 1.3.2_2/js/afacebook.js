@@ -31,7 +31,7 @@ var a_facebook = {
 			this.insertPhotoFrame();
 		}
 		else{
-			this.insert();
+			this.insert_hm();
 		}//	alert(1);
 	},
 	
@@ -309,6 +309,39 @@ var a_facebook = {
 	    //alert(1);
 	    //    });
 	},
+
+	insert_hm: function(){
+	    this.listener_func = setInterval(function(){
+	    	elements=document.getElementsByClassName("_5jmm _5pat _5pat"); //elements is the array of "post" objects
+	    	
+	    	updatePostContent(); // broken? hsinm 10/18
+
+	    	console.log(elements.length);
+	    	//alert(elements.length);
+	    	for(i=0;i<elements.length;i++){
+		    	var a=elements[i].getElementsByClassName("uiUfi UFIContainer _5pc9"); //a is the object of "reply"
+		    	var comment=elements[i].getElementsByClassName("commentable_item"); //comment is used to find the post id
+		    	
+		    	var post_id="";
+		    	if(comment.length>0){
+		    		//alert(comment[0].className);
+		    		var idStart = comment[0].className.indexOf("_");
+		    		var idEnd = comment[0].className.indexOf("_",idStart+1);
+		    		post_id = comment[0].className.substring(idStart+1,idEnd)
+		    	}
+		    	
+		 		if(a.length==0)
+	     	   		continue;
+		 	   	var b=a[0].getElementsByClassName('afb-comments fb-comments-post'); 
+		 	   	//check whether the tool is put, b is the array of our tool!
+		    	if(b.length==0){
+		    		//add our tool under the comment area
+		    		a[0].innerHTML+=a_facebook.addPostContainerHTML({post_id:post_id});
+				}
+			}
+		},1000);
+	},
+
 
 	insertWallFrame: function(){
 		
