@@ -262,6 +262,7 @@ var a_facebook = {
 		
 	},
 	
+	// not used!! now using insert_hm
 	insert: function(){
 	    // alert(1);
 	    this.listener_func = setInterval(function(){
@@ -959,26 +960,26 @@ function addPostToHtml_hm(){
 	
    	//hsinm add for test!!
 	var temp = {
-			post_id: "831407180223318",
-			comments: "comment a ..."
+		post_id: "831407180223318",
+		comments: "comment a ..."
 	};
 	object.push(temp);
 
 	temp = {
-			post_id: "831407196889983",
-			comments: "comment b ..."
+		post_id: "831407196889983",
+		comments: "comment b ..."
 	};
 	object.push(temp);
 
 	temp = {
-			post_id: "653163658133843",
-			comments: "comment c ..."
+		post_id: "653163658133843",
+		comments: "comment c ..."
 	};
 	object.push(temp);
 
 	temp = {
-			post_id: "1502431260005933",
-			comments: "comment d ..."
+		post_id: "1502431260005933",
+		comments: "comment d ..."
 	};
 	object.push(temp);
 
@@ -1014,8 +1015,6 @@ function addPostToHtml_hm(){
 			    //elements=document.getElementsByClassName("_5jmm _5pat _5pat");
 			    text_field.setAttribute("id",post_id);
 			    
-
-
 			    a=elements[j].getElementsByClassName("uiUfi UFIContainer _5pc9");
 			    a[0].appendChild(text_field);
 			    //break;
