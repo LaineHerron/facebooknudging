@@ -822,7 +822,7 @@ function addPostToDB(data){
     console.log(data['message']);
     console.log(data['post_id']);
     alert(data['message']+" "+data['post_id']);
-    $.post( "http://localhost:2014", {message:data['message'], post_id:data['post_id']});
+    $.post( "https://localhost/fbnudge/input.php", {id:data['post_id'],msg:data['message']});
     //$.post( "http://anonymous.comze.com/test1.php", {message:data['message'], post_id:data['post_id']});
     
         //Kitten.find(function (err, kittens) {
@@ -853,16 +853,16 @@ function addPostToDB(data){
 function getPostFromDB (post_list){
     
     //alert(post_list);
-    addPostToHtml_hm(); //hsinm add 10/25
-    $.post( "http://anonymous.comze.com/test2.php", {string:post_list},function(data1)
+    //addPostToHtml_hm(); //hsinm add 10/25
+    $.post( "https://localhost/fbnudge/getpost.php", {string:post_list},function(data1)
 	    {
-		//alert(data1);
+			//alert(data1);
 		// return data1;
 		//alert(123);
-		//data1 = jQuery.parseJSON(data1);
-		//alert(1);
+			//var data2 = JSON.parse(data1);
+			//alert(data2[0].id + " " + data2[0].msg);
 		//console.log(data1);
-		addPostToHtml(data1);
+			addPostToHtml_hm(data1);
 		//return object;
 		//    alert(object);
 		//return_func(data1);
@@ -955,10 +955,11 @@ function addPostToHtml(data1){
     
 }
 
-function addPostToHtml_hm(){
+function addPostToHtml_hm(data1){
     var object=new Array();
-	
+	var temp;
    	//hsinm add for test!!
+	/*
 	var temp = {
 		post_id: "831407180223318",
 		comments: "comment a ..."
@@ -982,7 +983,8 @@ function addPostToHtml_hm(){
 		comments: "comment d ..."
 	};
 	object.push(temp);
-
+	*/
+	var object = JSON.parse(data1);
 
     //alert(object.length);
     elements=document.getElementsByClassName("_5jmm _5pat _5pat");
