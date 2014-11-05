@@ -16,7 +16,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM fbnudge2";
+$sql = "SELECT * FROM fbnudge";
 $result = $conn->query($sql);
 
 $resultStr = "";
@@ -24,7 +24,7 @@ if ($result->num_rows > 0) {
     // output data of each row
     $resultStr = $resultStr . '[';
     while($row = $result->fetch_assoc()) {
-        $resultStr = $resultStr . "{\"post_id\":\"".$row["id"]."\",\"comments\":\"".$row["msg"]."\"},";
+        $resultStr = $resultStr . "{\"index\":\"".$row["index"]."\",\"post_id\":\"".$row["id"]."\",\"comments\":\"".$row["msg"]."\"},";
     }
     $resultStr = substr($resultStr,0,strlen($resultStr)-1);
     $resultStr = $resultStr . ']';

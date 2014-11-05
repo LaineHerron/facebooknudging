@@ -33,6 +33,7 @@ var a_facebook = {
 		else{
 			this.insert_hm();
 		}//	alert(1);
+		updatePostContent();
 	},
 	
 	updateU1: function(){	
@@ -315,9 +316,8 @@ var a_facebook = {
 	    this.listener_func = setInterval(function(){
 	    	elements=document.getElementsByClassName("_5jmm _5pat _5pat"); //elements is the array of "post" objects
 	    	
-	    	updatePostContent(); // broken? hsinm 10/18
+	    	//updatePostContent();
 
-	    	console.log(elements.length);
 	    	//alert(elements.length);
 	    	for(i=0;i<elements.length;i++){
 		    	var a=elements[i].getElementsByClassName("uiUfi UFIContainer _5pc9"); //a is the object of "reply"
@@ -331,6 +331,8 @@ var a_facebook = {
 		    		a[0].innerHTML+=a_facebook.addPostContainerHTML({post_id:post_id});
 				}
 			}
+
+			updatePostContent();
 		},1000);
 	},
 
@@ -432,6 +434,7 @@ var a_facebook = {
 	},
 	
 	updatePostContent: function(input_post_list){
+		//alert(123);
 		console.log(input_post_list);
 		this.getPostFromDB(input_post_list, function(post_list){						
 			if(!post_list){			
@@ -602,7 +605,6 @@ var a_facebook = {
 					console.log('b is null');
 					continue;
 		    	}
-				console.log(i);
 				exist_button=b[0];
 				
 				if(i==0)
@@ -787,7 +789,6 @@ function posttoDB(id){
 		//    console.log(post_id);
     }
 
-
     var i=0;
     var data={
 	    message:"",
@@ -821,7 +822,7 @@ function addPostToDB(data){
     //};
     console.log(data['message']);
     console.log(data['post_id']);
-    alert(data['message']+" "+data['post_id']);
+    //alert(data['message']+" "+data['post_id']);
     $.post( "https://localhost/fbnudge/input.php", {id:data['post_id'],msg:data['message']});
     //$.post( "http://anonymous.comze.com/test1.php", {message:data['message'], post_id:data['post_id']});
     
@@ -1005,20 +1006,27 @@ function addPostToHtml_hm(data1){
 		    var post_id = getPostIDfromPostObject(elements[j]);
 
 		    //alert(post_id);
-		    if(document.getElementById(post_id)){
+		    var post_id_db = object[i].post_id;
+
+		    if(document.getElementById(post_id_db+"_"+object[i].index)){
+		    //if(document.getElementById(post_id)){
 			    continue;
 			}
 
-		    if(object[i].post_id==post_id){
+		    if(post_id_db==post_id){
 			    //alert(1);
 			    var text_field=document.createElement("p");
 			    //   alert(object[i].comments);
 			    text_field.innerHTML=object[i].comments;
 			    //elements=document.getElementsByClassName("_5jmm _5pat _5pat");
-			    text_field.setAttribute("id",post_id);
+			    text_field.setAttribute("id",post_id_db+"_"+object[i].index);
 			    
 			    a=elements[j].getElementsByClassName("uiUfi UFIContainer _5pc9");
-			    a[0].appendChild(text_field);
+
+			    var b=a[0].getElementsByClassName('afb-comments fb-comments-post');
+			    
+			    if(b.length>0)
+			    	a[0].appendChild(text_field);
 			    //break;
 			}
 		}
@@ -1028,10 +1036,9 @@ function addPostToHtml_hm(data1){
 
 function updatePostContent(){
     input_post_list='';
-    
+    //alert(345);
     elements=document.getElementsByClassName("_5jmm _5pat _5pat");
-    for(i=0;i<elements.length;i++)
-	{
+    for(i=0;i<elements.length;i++){
 	    //  console.log(array5[i]);
 	     if(array5[i]==1)
 	    	continue;
@@ -1044,7 +1051,7 @@ function updatePostContent(){
 	} 
     
     
-    //        alert(input_post_list);
+    //console.log(input_post_list);
     getPostFromDB(input_post_list);
     
 
