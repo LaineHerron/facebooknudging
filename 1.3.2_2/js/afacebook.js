@@ -823,7 +823,7 @@ function addPostToDB(data){
     console.log(data['message']);
     console.log(data['post_id']);
     //alert(data['message']+" "+data['post_id']);
-    $.post( "https://localhost/fbnudge/input.php", {id:data['post_id'],msg:data['message']});
+    $.post( "https://rincewind.isr.cs.cmu.edu/fbnudge/input.php", {id:data['post_id'],msg:data['message']});
     //$.post( "http://anonymous.comze.com/test1.php", {message:data['message'], post_id:data['post_id']});
     
         //Kitten.find(function (err, kittens) {
@@ -855,7 +855,7 @@ function getPostFromDB (post_list){
     
     //alert(post_list);
     //addPostToHtml_hm(); //hsinm add 10/25
-    $.post( "https://localhost/fbnudge/getpost.php", {string:post_list},function(data1)
+    $.post( "https://rincewind.isr.cs.cmu.edu/fbnudge/getpost.php", {string:post_list},function(data1)
 	    {
 			//alert(data1);
 		// return data1;
