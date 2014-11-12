@@ -20,6 +20,7 @@ var a_facebook = {
 		var container = this.recognizePageType();			
 		clearInterval(a_facebook.listener_func);		
 		//		 
+		//console.log(container);
 		if(container=='wall'){					
 			alert(1);	
 			this.insertWallFrame();
@@ -313,12 +314,13 @@ var a_facebook = {
 	},
 
 	insert_hm: function(){
+		//console.log("insert_hm");
 	    this.listener_func = setInterval(function(){
 	    	elements=document.getElementsByClassName("_5jmm _5pat _5pat"); //elements is the array of "post" objects
 	    	
 	    	//updatePostContent();
 
-	    	//alert(elements.length);
+	    	//console.log("insert_hm:"+elements.length);
 	    	for(i=0;i<elements.length;i++){
 		    	var a=elements[i].getElementsByClassName("uiUfi UFIContainer _5pc9"); //a is the object of "reply"
 		    	var post_id = getPostIDfromPostObject(elements[i]);
@@ -326,9 +328,14 @@ var a_facebook = {
 	     	   		continue;
 		 	   	var b=a[0].getElementsByClassName('afb-comments fb-comments-post'); 
 		 	   	//check whether the tool is put, b is the array of our tool!
+		    	
+		 	   	//console.log(b.length);
 		    	if(b.length==0){
 		    		//add our tool under the comment area
 		    		a[0].innerHTML+=a_facebook.addPostContainerHTML({post_id:post_id});
+
+		    		console.log("in hsinm_insert");
+		    		loaded = 1;
 				}
 			}
 
@@ -862,7 +869,7 @@ function getPostFromDB (post_list){
 		//alert(123);
 			//var data2 = JSON.parse(data1);
 			//alert(data2[0].id + " " + data2[0].msg);
-		//console.log(data1);
+			//console.log(data1);
 			addPostToHtml_hm(data1);
 		//return object;
 		//    alert(object);
@@ -987,11 +994,11 @@ function addPostToHtml_hm(data1){
 	*/
 	var object = JSON.parse(data1);
 
-    //alert(object.length);
+    
     elements=document.getElementsByClassName("_5jmm _5pat _5pat");
     //alert(elements.length);
     for(i=0;i<object.length;i++){
-	    //alert(object[i].post_id);
+	    //console.log(object[i].post_id);
 	    //lert(elements.length);
 	    for(j=0;j<elements.length;j++){
 	    	//alert(i + " " + j);
@@ -1025,6 +1032,8 @@ function addPostToHtml_hm(data1){
 
 			    var b=a[0].getElementsByClassName('afb-comments fb-comments-post');
 			    
+			    //console.log(b.length);
+
 			    if(b.length>0)
 			    	a[0].appendChild(text_field);
 			    //break;
@@ -1354,10 +1363,20 @@ for(i=0;i<rate5.length;i++)
 
 
 
-
+var loaded = 0;
 
 a_facebook.create();
 ratingSystem();
+
+	    this.listener_func2 = setInterval(function(){
+	    		if(loaded==0){
+	    			a_facebook.create();
+	    		}
+		},1000);
+
+
+
+
 
 person1=0;
 person2=0;
