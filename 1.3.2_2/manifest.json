@@ -7,7 +7,7 @@
       "js": [ "js/jquery.js", "js/func.js", "js/afacebook.js" ],
       "matches": [ "http://*/*", "https://*/*" ]
    } ],
-   "description": "CMU anonymous dislike project",
+   "description": "CMU Anonymous Nudging project",
    "icons": {
       "128": "media/img/icon111.png",
       "16": "media/img/icon16.png",
@@ -21,7 +21,7 @@
     ],
    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1xtMrwqTRUbWSN1lhwNeaDH/nBnZv+ki2tfYDYQUFZU+u75scOge6Zq/h2Subi2uXNZ88dQu6FtU+tJZGFZic7Qwy8odhh868xTON5aKXokqOVqV5taMGUBnA/NvXacohKHdEAUdOWkdDu56wHhibOz43tPKpw2tOrfkcd+m+jwIDAQAB",
    "manifest_version": 2,
-   "name":"Anonymous Dislike",
+   "name":"Anonymous Nudging",
    "permissions": [ "tabs", "http://*/facebook.com", "https://*/facebook.com" ,"http://localhost/*", "https://localhost/*","http://rincewind.isr.cs.cmu.edu/*","https://rincewind.isr.cs.cmu.edu/*"],
 
    "version": "1.3.2"
