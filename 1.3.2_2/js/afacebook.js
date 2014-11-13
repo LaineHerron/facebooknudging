@@ -8,17 +8,19 @@ var a_facebook = {
 		post_add: 'Send'
 	},
 		
-	create: function(){			
+	create: function(){		
+		isCreating = true;	
 		this.initPage();
 		this.livePosting2();
 		this.changeUrlListener();
 		this.updateU1();		
 		// this.importCSS();	
+		isCreating = false;
 	},
 	
 	initPage: function(){
 		var container = this.recognizePageType();			
-		clearInterval(a_facebook.listener_func);		
+		// clearInterval(a_facebook.listener_func);		
 		//		 
 		//console.log(container);
 		if(container=='wall'){					
@@ -26,15 +28,17 @@ var a_facebook = {
 			this.insertWallFrame();
 			this.listenWallLength();
 		} else if(container=='profile'){         
-			this.insertProfileFrame();
-			this.listenProfilePostLength();
+			// this.insertProfileFrame();
+			// this.listenProfilePostLength();
+			this.insert_hm();
 		} else if(container=='photo'){           // 10/18: it only shows on the photo and on the wall now	
 			this.insertPhotoFrame();
 		}
 		else{
 			this.insert_hm();
 		}//	alert(1);
-		updatePostContent();
+		
+		//updatePostContent();
 	},
 	
 	updateU1: function(){	
@@ -315,6 +319,8 @@ var a_facebook = {
 
 	insert_hm: function(){
 		//console.log("insert_hm");
+	    
+		//1112
 	    this.listener_func = setInterval(function(){
 	    	elements=document.getElementsByClassName("_5jmm _5pat _5pat"); //elements is the array of "post" objects
 	    	
@@ -330,17 +336,38 @@ var a_facebook = {
 		 	   	//check whether the tool is put, b is the array of our tool!
 		    	
 		 	   	//console.log(b.length);
-		    	if(b.length==0){
+
+
+		 	   	postAuthorNameContainer = elements[i].getElementsByClassName("fwb fcg");
+				postAuthorName = "";
+				if( postAuthorNameContainer.length > 0){
+				//postAuthorName = postAuthorNameContainer[0].getElementsByTagName("a")[0].innerHTML;
+				//console.log("post author:" + postAuthorName[0].getElementsByTagName("a")[0].innerHTML);
+			
+					postAuthorName = postAuthorNameContainer[0].getElementsByTagName("a")[0];
+					postAuthorID = postAuthorName.getAttribute("data-hovercard").split("&")[0].split("=")[1];
+				//console.log("post author:" + postAuthorID);
+			
+				}
+				//console.log(postAuthorNameContainer.length);
+				//
+			
+		    
+
+
+		    	if(b.length==0 && a_facebook.getUserName()!=postAuthorID){
 		    		//add our tool under the comment area
 		    		a[0].innerHTML+=a_facebook.addPostContainerHTML({post_id:post_id});
 
-		    		console.log("in hsinm_insert");
+		    		//console.log("in hsinm_insert");
 		    		loaded = 1;
 				}
 			}
 
-			updatePostContent();
+			
 		},1000);
+		isInserted = true;
+		console.log("after insert");
 	},
 
 
@@ -598,7 +625,7 @@ var a_facebook = {
 	},
 	
 	livePosting2: function(){
-		array=new Array('Too much personal information','Sexual content','Relationship','Profanity','Alcohol/drug use','Inappropriate jokes','Lies','Information about work/colleague','Humiliating others','Political','Insensitive');
+		array=new Array('Too much Personal Information','Sexual Content','Private Relationship Content','Profanity','Alcohol/Drug Use','Inappropriate Jokes','Lies','Information about employer','Content is Humiliating to Others','Political/Religious Content','Other');
 
 		setInterval(function(){
 			//elements=document.getElementsByClassName('_5uch _5jmm _5pat');  //modified by hsinm 10/18
@@ -663,7 +690,7 @@ var a_facebook = {
 		 
 				//exist_button.onclick=function(){alert('yalalahudsfhsidft');};
 	    	}
-	    },1000);
+	    },2000);
     },
 
 	livePosting: function(){
@@ -717,7 +744,8 @@ var a_facebook = {
 
 
 	addPostContainerHTML: function(data){
-		array=new Array('Too much personal information','Sexual content','Relationship','Profanity','Alcohol/drug use','Inappropriate jokes','Lies','Information about their work/boss','Humiliating others','Political','other');
+		array=new Array('Too much Personal Information','Sexual Content','Private Relationship Content','Profanity','Alcohol/Drug Use','Inappropriate Jokes','Lies','Information about employer','Content is Humiliating to Others','Political/Religious Content','Other');
+
 		elements=document.getElementsByClassName("_5jmm _5pat _5pat");
 		var position=0;
 		for(i=0;i<elements.length;i++){
@@ -750,7 +778,16 @@ var a_facebook = {
 		if(data['post_id']==null)
 		    return '';
 		return '<div class="afb-comments fb-comments-post' + '" data-post-id="' + data['post_id'] + '"><div class="afb-comments-list"></div><div class="afb-comment-add">	<Select '+'id='+'"'+select_id+'"'+' Size=1 Style="Width:270px;Height:30px;Font-size:10pt" class= "selbox" >'+select_text+'</select><label class="uiButton uiButtonConfirm input-submit"><input type="button"  value="' + 'send' + '"></label></div></div>';	
-	}	
+	},
+
+	getUserName: function (){
+		//nameContainer=document.getElementsByClassName("fbxWelcomeBoxName");
+		nameContainer=document.getElementsByClassName("_s0 _2dpc _rw img");
+		var userID = nameContainer[0].id.split("_");
+		//console.log(userID[3]);
+		return userID[3];
+		//return nameContainer[0].innerHTML;
+	}
 };
 
 //input a post object, return its post id
@@ -766,7 +803,6 @@ function getPostIDfromPostObject(postObj){
 
 	return post_id;
 }
-
 
 function posttoDB(id){
 	//alert(id);
@@ -796,10 +832,14 @@ function posttoDB(id){
 		//    console.log(post_id);
     }
 
+    postContent = elements[id].getElementsByClassName('_5pbx userContent');
+    console.log(postContent[0].getElementsByTagName("p")[0].innerHTML);
+    postMsg = (postContent[0].getElementsByTagName("p")[0].innerHTML);
     var i=0;
     var data={
 	    message:"",
-	    post_id:1
+	    post_id:1,
+	    postStr:"",
 	};
 
 	for(i=0;i<place.length;i++){
@@ -810,6 +850,7 @@ function posttoDB(id){
 	}
 	
 	data.post_id=post_id;
+	data.postStr = postMsg;
 	var text_field=document.createElement("p");   
 	text_field.innerHTML=data.message;
 	//	console.log(text_field);
@@ -829,8 +870,15 @@ function addPostToDB(data){
     //};
     console.log(data['message']);
     console.log(data['post_id']);
+    console.log(data['postStr']);
     //alert(data['message']+" "+data['post_id']);
-    $.post( "https://rincewind.isr.cs.cmu.edu/fbnudge/input.php", {id:data['post_id'],msg:data['message']});
+
+    //$.post( "https://localhost/fbnudge/input.php", {id:data['post_id'],msg:data['message'],postStr:data['postStr']});
+    
+    $.post( "https://rincewind.isr.cs.cmu.edu/fbnudge/input.php", {id:data['post_id'],msg:data['message'],postStr:data['postStr']});
+    
+	alert("Your comment about [" +data['message'] + "] has been sent.");
+	updatePostContent();
     //$.post( "http://anonymous.comze.com/test1.php", {message:data['message'], post_id:data['post_id']});
     
         //Kitten.find(function (err, kittens) {
@@ -862,8 +910,12 @@ function getPostFromDB (post_list){
     
     //alert(post_list);
     //addPostToHtml_hm(); //hsinm add 10/25
+    //console.log('getPostFromDB');
+    //$.post( "https://localhost/fbnudge/getpost.php", {string:post_list},function(data1)
+	
     $.post( "https://rincewind.isr.cs.cmu.edu/fbnudge/getpost.php", {string:post_list},function(data1)
 	    {
+			console.log('$post');
 			//alert(data1);
 		// return data1;
 		//alert(123);
@@ -878,9 +930,33 @@ function getPostFromDB (post_list){
 		//    alert(data1.length);
 		//return return_func(data1);  
 
-	    }
-	    );
-
+	    })
+    	.done(function() {
+    		console.log( "second success" );
+  		})
+  		.fail(function() {
+    		console.log( "error" );
+  		})
+  		.always(function() {
+    		console.log( "finished" );
+		}
+	 );
+	/*
+	$.ajax({
+    	url: "https://rincewind.isr.cs.cmu.edu/fbnudge/getpost.php",
+    	data: { string:post_list },
+    	success: function(data, textStatus, jqXHR) {
+        	//$('#myElement').append(data);
+        	addPostToHtml_hm(data);
+        	console.log('$post');
+    	},
+    	error: function(jqXHR, textStatus, errorThrown) {
+        	// report error
+        	console.log( "error" );
+    	}
+	});
+*/
+    //console.log('after$post');
 
 
 
@@ -994,7 +1070,7 @@ function addPostToHtml_hm(data1){
 	*/
 	var object = JSON.parse(data1);
 
-    
+    //console.log('addPostToHtml_hm');
     elements=document.getElementsByClassName("_5jmm _5pat _5pat");
     //alert(elements.length);
     for(i=0;i<object.length;i++){
@@ -1015,35 +1091,70 @@ function addPostToHtml_hm(data1){
 		    //alert(post_id);
 		    var post_id_db = object[i].post_id;
 
-		    if(document.getElementById(post_id_db+"_"+object[i].index)){
+		    if(document.getElementById(post_id_db+"_"+object[i].comments)){
 		    //if(document.getElementById(post_id)){
 			    continue;
 			}
 
-		    if(post_id_db==post_id){
+			postAuthorNameContainer = elements[j].getElementsByClassName("fwb fcg");
+			postAuthorName = "";
+			if( postAuthorNameContainer.length > 0){
+				//postAuthorName = postAuthorNameContainer[0].getElementsByTagName("a")[0].innerHTML;
+				//console.log("post author:" + postAuthorName[0].getElementsByTagName("a")[0].innerHTML);
+			
+				postAuthorName = postAuthorNameContainer[0].getElementsByTagName("a")[0];
+				postAuthorID = postAuthorName.getAttribute("data-hovercard").split("&")[0].split("=")[1];
+				//console.log("post author:" + postAuthorID);
+			
+			}
+			//console.log(postAuthorNameContainer.length);
+			//
+			//if(postAuthorID=='100003206432071')
+			//	console.log(  a_facebook.getUserName() + " " + postAuthorID);
+		    if(post_id_db==post_id && a_facebook.getUserName()==postAuthorID){
+		    //if(post_id_db==post_id ){
 			    //alert(1);
+
+			    var commentCount = object[i].count;
+
 			    var text_field=document.createElement("p");
 			    //   alert(object[i].comments);
-			    text_field.innerHTML=object[i].comments;
+			    var aComment = "";
+			    if(commentCount >= 5){
+			    	aComment = "*Many people said your post was inappropriate because of: ";
+			    }
+			    else{
+			    	aComment = "*Some people said your post was inappropriate because of: ";
+			    }
+
+			    aComment = aComment+object[i].comments;
+			    //console.log(aComment);
+			    var text_field;
+			    text_field.innerHTML=aComment;
 			    //elements=document.getElementsByClassName("_5jmm _5pat _5pat");
-			    text_field.setAttribute("id",post_id_db+"_"+object[i].index);
-			    
+			    //text_field.setAttribute("id",post_id_db+"_"+object[i].index);
+			    text_field.setAttribute("id",post_id_db+"_"+object[i].comments);
+
 			    a=elements[j].getElementsByClassName("uiUfi UFIContainer _5pc9");
 
 			    var b=a[0].getElementsByClassName('afb-comments fb-comments-post');
 			    
-			    //console.log(b.length);
+			    console.log(b.length);
 
-			    if(b.length>0)
+			    //if(b.length>0)
 			    	a[0].appendChild(text_field);
 			    //break;
 			}
 		}
 	}
+	isUpdateContent = true;
+
+	//a_facebook.getUserName();
     
 }
 
 function updatePostContent(){
+
     input_post_list='';
     //alert(345);
     elements=document.getElementsByClassName("_5jmm _5pat _5pat");
@@ -1058,11 +1169,11 @@ function updatePostContent(){
 	    input_post_list=input_post_list+post_id;
 	    input_post_list=input_post_list+',';
 	} 
-    
+    console.log('updatePostContent');
     
     //console.log(input_post_list);
     getPostFromDB(input_post_list);
-    
+    //isUpdateContent = true;
 
 
     //alert(message);
@@ -1364,14 +1475,30 @@ for(i=0;i<rate5.length;i++)
 
 
 var loaded = 0;
-
+var isCreating = false;
+var isUpdateContent = false;
+var isInserted = false;
 a_facebook.create();
 ratingSystem();
 
+//updatePostContent();
+
 	    this.listener_func2 = setInterval(function(){
-	    		if(loaded==0){
+	    		console.log(isInserted + " " + isUpdateContent);
+
+	    		if(loaded==0 && !isCreating){
 	    			a_facebook.create();
+
 	    		}
+	    		
+	    		if( (isInserted && !isUpdateContent) ){
+	    			console.log("gg");
+	    			updatePostContent();
+	    			isUpdateContent = true;
+
+	    		}
+	    		
+
 		},1000);
 
 
