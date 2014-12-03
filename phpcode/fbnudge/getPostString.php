@@ -3,11 +3,10 @@
 #, {"post_id":"831407196889983","comments":"hehe"}
 #]';
 
-
 $servername = "127.0.0.1";
-$username = "root";
-$password = "0000";
-$dbname = "test";
+$username = "courseproject";
+$password = "zxcv!@#$";
+$dbname = "course_project";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -16,22 +15,23 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM fbnudge";
+$sql = "SELECT * FROM posts";
+//$sql = "select id, count(id), msg from `fbnudge` group by id, msg";
+//$sql = "SELECT id, group_concat(DISTINCT msg) AS msg FROM ((select id,msg,count(msg) from `fbnudge` group by id,msg having count(msg) <= 4))AS smaller group by id";
 $result = $conn->query($sql);
 
-$resultStr = "";
+$resultStr = ""; 
 if ($result->num_rows > 0) {
     // output data of each row
-    $resultStr = $resultStr . '[';
     while($row = $result->fetch_assoc()) {
-        $resultStr = $resultStr . "{\"index\":\"".$row["index"]."\",\"post_id\":\"".$row["id"]."\",\"comments\":\"".$row["msg"]."\"},";
-    }
-    $resultStr = substr($resultStr,0,strlen($resultStr)-1);
-    $resultStr = $resultStr . ']';
+	
+echo "post_id:".$row["id"].",string:".$row["post"]."<br />";
+}   
+    
+
 } else {
     echo "0 results";
 }
-echo $resultStr;
 $conn->close();
 
 
